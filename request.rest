@@ -1,0 +1,14 @@
+###
+
+POST http://localhost:3000/pelayanan/sumbang-buku
+Content-Type: application/json
+
+{
+    "judul": "JUDUL",
+    "jumlah": 10,
+    "penulis": "PENULIS",
+    "kategori": "KATEGORI",
+    "tahun": 2024,
+    "deskripsi": "LOREM",
+    "link": "http://google.com"
+}

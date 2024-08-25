@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>
+        <%= data.appName %>
+    </title>
+    <link href="/public/images/UNH.png" rel="icon"> 
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <%- include ("../components/header.ejs") %>
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+      </style>
+
+      <!-- Custom styles for this template -->
+    <!-- <link href="carousel.css" rel="stylesheet"> -->
+    <link href="https://getbootstrap.com/docs/5.0/examples/carousel/carousel.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="navbar navbar-expand-md navbar-white border-bottom shadow-sm  fixed-top bg-white">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-white">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">
+                        <img src="/public/images/UNH.png" alt="Logo" style="width: 32px; height: 32px;">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav d-flex gap-2">
+                            <a class="nav-link" href="/">Beranda</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Profile
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/profile/sejarah">Sejarah</a></li>
+                                    <li><a class="dropdown-item" href="/profile/struktur-organisasi">Struktur Organisasi</a></li>
+                                    <li><a class="dropdown-item" href="/profile/visi-misi">Visi & Misi</a></li>
+                                    <li><a class="dropdown-item" href="/profile/tata-tertib">Tata Tertib</a></li>
+                                    <li><a class="dropdown-item" href="/profile/akreditasi">Akreditasi</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Koleksi
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/koleksi/data-baris-buku">Data Baris Buku</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pelayanan
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/pelayanan/buku-tamu">Buku Tamu</a></li>
+                                    <li><a class="dropdown-item" href="/pelayanan/pinjam-buku">Formulir Bebas Pinjam Pustaka</a></li>
+                                    <li><a class="dropdown-item" href="/pelayanan/sumbang-buku">Formulir Online Sumbang Buku</a></li>
+                                    <li><a class="dropdown-item" href="/pelayanan/referensi-judul-skripsi">Referensi Judul Skripsi</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="/contact">Kontak</a>
+                            </li>
+                            <a class="nav-link" href="/login">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <main>
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/public/images/gambar1.jpg" class="bd-placeholder-img" width="100%" height="100%">
+                    <div class="container">
+                        <!-- <div class="carousel-caption text-start"> -->
+                        <div class="carousel-caption">
+                            <h1>Perpuskaan Universitas Nurdin Hamzah.</h1>
+                            <!-- <p>Some representative placeholder content for the first slide of the carousel.</p> -->
+                            <p><a class="btn btn-lg btn-primary" href="/pelayanan/buku-tamu">Isi Buku Tamu</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/public/images/gambar2.jpg" class="bd-placeholder-img" width="100%" height="100%">
+                    <div class="container">
+                        <!-- <div class="carousel-caption"> -->
+                        <div class="carousel-caption text-end">
+                            <h1>Daftar Buku</h1>
+                            <!-- <p>Some representative placeholder content for the second slide of the carousel.</p> -->
+                            <p><a class="btn btn-lg btn-primary" href="/koleksi/data-baris-buku">List Buku</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="container marketing">
+            
+            <!-- Three columns of text below the carousel -->
+            <div class="row">
+                <!-- Sistem Informasi  -->
+                <div class="col-lg-4">
+                    <h2>Sistem Informasi</h2>
+                    <p>Sistem informasi berfokus pada integrasi antara teknologi, orang, dan proses untuk mendukung pengambilan keputusan dan manajemen organisasi. Ini mencakup analisis kebutuhan sistem, desain, pengembangan, dan implementasi sistem informasi.</p>
+                    <p><a class="btn btn-secondary" href="https://www.unh.ac.id">View details &raquo;</a></p>
+                </div>
+                <!-- Teknik Informatika -->
+                <div class="col-lg-4">
+                    <h2>Teknik Informatika</h2>
+                    <p>Teknik informatika atau ilmu komputer berfokus pada prinsip-prinsip dasar dan teknik dalam pengembangan perangkat lunak, algoritma, dan teori komputer. Ini mencakup aspek teknis dari pemrograman, rekayasa perangkat lunak, dan sistem komputer..</p>
+                    <p><a class="btn btn-secondary" href="https://informatika.unh.ac.id/">View details &raquo;</a></p>
+                </div>
+                <!-- Teknologi Informasi -->
+                <div class="col-lg-4">
+                    <h2>Perpustakan</h2>
+                    <p>Teknologi informasi berfokus pada penggunaan perangkat keras dan perangkat lunak untuk mengelola dan memproses informasi. Ini melibatkan pemeliharaan infrastruktur TI, jaringan, dan dukungan teknis..</p>
+                    <p><a class="btn btn-secondary" href="https://www.unh.ac.id">View details &raquo;</a></p>
+                </div>
+            </div>
+        
+            <!-- START THE FEATURETTES -->
+            <hr class="featurette-divider">
+        
+            <!-- Universitas Nurdin Hamzah -->
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Universitas Nurdin Hamzah</h2>
+                    <p class="lead">Universitas Nurdin Hamzah (UNH) di Jambi adalah lembaga pendidikan tinggi yang berkomitmen untuk menghasilkan lulusan berkualitas. Dengan program studi yang beragam dan didukung oleh fasilitas modern, UNH mempersiapkan mahasiswa untuk sukses di dunia kerja. Universitas ini juga mendorong penelitian dan pengabdian kepada masyarakat sebagai bagian dari pengembangan ilmu pengetahuan dan teknologi.</p>
+                </div>
+                <div class="col-md-5">
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/_tSz_sSLIkY?si=XZYW2LteuCWgda0C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        
+            <hr class="featurette-divider">
+        
+            <!-- perpustakaan -->
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading">Perpustakaan Universitas Nurdin Hamzah</h2>
+                    <p class="lead">Universitas Nurdin Hamzah (UNH) di Jambi adalah lembaga pendidikan tinggi yang berkomitmen untuk menghasilkan lulusan berkualitas. Dengan program studi yang beragam dan didukung oleh fasilitas modern, UNH mempersiapkan mahasiswa untuk sukses di dunia kerja. Universitas ini juga mendorong penelitian dan pengabdian kepada masyarakat sebagai bagian dari pengembangan ilmu pengetahuan dan teknologi.</p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/MPezWHBwgMc?si=INOOemEMg8l7AOrc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        
+            <hr class="featurette-divider">
+    
+        </div><!-- /.container -->
+        
+        <!-- FOOTER -->
+        <footer class="container">
+            <p class="float-end"><a href="#">Back to top</a></p>
+            <p>&copy; 2024 Universitas Nurdin Hamzah. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <%- include ("../components/footer-js.ejs") %>
+</body>
+
+</html>

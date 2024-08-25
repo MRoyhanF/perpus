@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>
+        <%= data.appName %>
+    </title>
+    <link href="/public/images/UNH.png" rel="icon"> 
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <%- include ("../../components/header.ejs") %>
+</head>
+
+<body x-data="alpineInit()">
+    <%- include ("../../components/ui/navbar.ejs") %>
+
+        <main class="container my-5">
+            <h1 class="mb-2 text-gray-800 mb-5 font-weight-bolder">Pinjam Buku</h1>
+            <form @submit.prevent="submit" class="mb-5">
+                <div class="row mt-4">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="nim" class="form-label text-gray-800">Nomor Induk Mahasiswa</label>
+                            <input type="text" x-model="data.nim" class="form-control" id="nim" placeholder="xxxxxxxx">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="idBuku" class="form-label text-gray-800">ID Buku</label>
+                            <div class="d-flex gap-2">
+                                <input type="number" x-model="data.idBuku" class="form-control" id="idBuku" placeholder="ID Buku yang ingin dipinjam">
+                                <button type="button" @click="cariBuku" class="btn btn-primary">Cari</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="my-4 text-gray-800 font-weight-bolder">Informasi Buku</h3>
+                <div class="row mt-md-2">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="penulis" class="form-label text-gray-800">Penulis</label>
+                            <input type="text" x-model="buku.penulis" class="form-control" id="penulis" placeholder="Nama Lengkap Penulis">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="kategori" class="form-label text-gray-800">Kategori</label>
+                            <input type="text" x-model="buku.kategori" class="form-control" id="kategori" placeholder="Kategori">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-md-2">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="tahun" class="form-label text-gray-800">Tahun</label>
+                            <input type="text" x-model="buku.tahun" class="form-control" id="tahun" placeholder="2024">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="link" class="form-label text-gray-800">Link Buku</label>
+                            <input type="url" x-model="buku.link" class="form-control" id="link" placeholder="contoh: https://www.google.com">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-md-2">
+                    <div class="col-12 col-md-12">
+                        <div class="mb-3">
+                            <label for="deskripsi" class="form-label text-gray-800">Deskripsi Buku</label>
+                            <textarea type="text" x-model="buku.deskripsi" class="form-control" id="deskripsi" placeholder="Deskripsi buku"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Pinjam</button>
+            </form>
+
+            <!-- FOOTER -->
+            <footer class="container">
+                <p class="float-end"><a href="#">Back to top</a></p>
+                <p>&copy; 2024 Universitas Nurdin Hamzah. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            </footer>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <%- include ("../../components/footer-js.ejs") %>
+
+            <script>
+                function alpineInit() {
+                    return {
+                        data: {
+                            nim: '',
+                            idBuku: '',
+                            isSearch: false,
+                        },
+                        buku: {
+                            penulis: '',
+                            kategori: '',
+                            tahun: '',
+                            link: '',
+                            deskripsi: '',
+                        },
+                        async cariBuku() {
+                            try {
+                                if (!this.data.idBuku) return Toastify({
+                                    text: 'Masukkan id buku yang ingin dicari',
+                                    duration: 1600,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    style: {
+                                        background: '#e74a3b',
+                                    },
+                                }).showToast();
+                                const request = await fetch(`/books/${this.data.idBuku}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                                const response = await request.json();
+                                if (response.status === 200) {
+                                    this.buku = {
+                                        penulis: response.data.buku.penulis,
+                                        kategori: response.data.buku.kategori,
+                                        tahun: response.data.buku.tahun,
+                                        link: response.data.buku.link,
+                                        deskripsi: response.data.buku.deskripsi,
+                                    };
+                                    this.data.isSearch = true
+                                } else {
+                                    return Toastify({
+                                        text: 'Buku tidak ditemukan',
+                                        duration: 1600,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: '#e74a3b',
+                                        },
+                                    }).showToast();
+                                }
+                            } catch (error) {
+                                return Toastify({
+                                    text: 'Terjadi kesalahan pada server',
+                                    duration: 1600,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    style: {
+                                        background: '#e74a3b',
+                                    },
+                                }).showToast();
+                            }
+                        },
+                        async submit() {
+                            try {
+                                console.log({
+                                    nim: this.data.nim,
+                                    idBuku: this.data.idBuku,
+                                })
+                                if (!this.data.isSearch) return Toastify({
+                                    text: 'Cari buku terlebih dahulu',
+                                    duration: 1600,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    style: {
+                                        background: '#e74a3b',
+                                    },
+                                }).showToast();
+                                const request = await fetch(`/pelayanan/pinjam-buku`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        nim: this.data.nim,
+                                        idBuku: this.data.idBuku,
+                                    })
+                                });
+                                const response = await request.json();
+                                Toastify({
+                                    text: response.message,
+                                    duration: 2000,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    style: {
+                                        background: response.status === 201 ? '#1cc88a' : '#e74a3b',
+                                    },
+                                }).showToast();
+                                if (response.status === 201) setTimeout(() => window.location.href = '/koleksi/data-baris-buku', 1500);
+                            } catch (error) {
+                                return Toastify({
+                                    text: 'Terjadi kesalahan pada server',
+                                    duration: 1600,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    style: {
+                                        background: '#e74a3b',
+                                    },
+                                }).showToast();
+                            }
+                        }
+                    }
+                }
+            </script>
+</body>
+
+</html>

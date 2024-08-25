@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        ADMIN
+        <%= data.appName %>
+    </title>
+    <link href="/public/images/UNH.png" rel="icon"> 
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <%- include("../../components/header.ejs") %>
+</head>
+
+<body id="page-top" x-data="alpineInit(<%= JSON.stringify(data.skripsi) %>)">
+    <div id="wrapper">
+        <%- include("../../components/ui/sidebar.ejs") %>
+
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <%- include ("../../components/ui/nav.ejs", { user: data.user }) %>
+
+                        <div class="container-fluid">
+
+                            <!-- Page Heading -->
+                            <h1 class="h3 mb-2 text-gray-800">Ubah Data Skripsi</h1>
+                            <p class="mb-4">Ubah data skripsi mahasiswa</p>
+
+                            <!-- DataTales Example -->
+                            <div class="card shadow mb-4 p-4">
+
+                                <form @submit.prevent="submit">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="kode" class="form-label">Kode</label>
+                                                <input type="text" x-model="data.kode" class="form-control" id="kode" placeholder="xxxxx">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="judul" class="form-label">Judul Skripsi</label>
+                                                <input type="text" x-model="data.judul" class="form-control" id="judul" placeholder="Masukkan judul skripsi">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Nama Mahasiswa</label>
+                                                <input type="text" x-model="data.name" class="form-control" id="name" placeholder="Masukkan nama mahasiswa">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="nim" class="form-label">Nomor Induk Mahasiswa</label>
+                                                <input type="text" x-model="data.nim" class="form-control" id="nim" placeholder="Masukkan NIM">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="tahun" class="form-label">Tahun</label>
+                                                <input type="number" x-model="data.tahun" class="form-control" id="tahun" placeholder="Masukkan tahun">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="prodi" class="form-label">Program Studi</label>
+                                                <select class="form-select" x-model="data.programStudi" id="prodi" aria-label="Pilih Program Studi">
+                                                <option selected disabled>Pilih Program Studi</option>
+                                                <% data.programStudi.forEach(prodi => { %>
+                                                    <option value="<%= prodi %>" <%= data.skripsi.dataValues.programStudi === prodi ? 'selected' : '' %>>
+                                                        <%= prodi %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+            <%- include("../../components/footer-js.ejs") %>
+
+                <script>
+                    function alpineInit(skripsi) {
+                        return {
+                            data: {
+                                kode: skripsi.kode,
+                                judul: skripsi.judul,
+                                name: skripsi.name,
+                                nim: skripsi.nim,
+                                tahun: skripsi.tahun,
+                                programStudi: skripsi.programStudi,
+                            },
+                            async submit() {
+                                try {
+                                    const {
+                                        kode,
+                                        ...values
+                                    } = this.data
+                                    const request = await fetch(`/admin/skripsi/${kode}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(values)
+                                    });
+                                    const response = await request.json();
+                                    Toastify({
+                                        text: response.message,
+                                        duration: 2000,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    if (response.status === 200) setTimeout(() => window.location = '/admin/skripsi', 1500);
+                                } catch (error) {
+                                    Toastify({
+                                        text: 'Terjadi kesalahan pada server, error: ' + error.message,
+                                        duration: 1600,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    return;
+                                }
+                            },
+                            async logout() {
+                                try {
+                                    const request = await fetch('/logout', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-type': 'application/json'
+                                        },
+                                    })
+                                    const response = await request.json()
+                                    Toastify({
+                                        text: response.message,
+                                        duration: 2000,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
+                                } catch (error) {
+                                    Toastify({
+                                        text: 'Terjadi kesalahan pada server, error: ' + error.message,
+                                        duration: 1600,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    return;
+                                }
+                            },
+                        }
+                    }
+                </script>
+</body>
+
+</html>

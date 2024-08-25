@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        ADMIN
+        <%= data.appName %>
+    </title>
+    <link href="/public/images/UNH.png" rel="icon"> 
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="/js/common.js" defer></script>
+    <%- include ("../../components/header.ejs") %>
+</head>
+
+<body id="page-top" x-data="alpineInit()">
+    <div id="wrapper">
+        <%- include ("../../components/ui/sidebar.ejs") %>
+
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <%- include ("../../components/ui/nav.ejs", { user: data.user }) %>
+
+                        <div class="container-fluid">
+
+                            <!-- Page Heading -->
+                            <h1 class="h3 mb-2 text-gray-800">Buku Tamu</h1>
+                            <p class="mb-4">Tabel buku tamu</p>
+
+                            <!-- DataTales Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Alamat Email</th>
+                                                    <th>Nama Lengkap</th>
+                                                    <th>Nomor Induk Mahasiswa</th>
+                                                    <th>Program Studi</th>
+                                                    <th>Waktu</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Nama</th>
+                                                    <th>Nomor Induk Mahasiswa</th>
+                                                    <th>Program Studi</th>
+                                                    <th>Waktu</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <% if (data.kunjungan.length===0) { %>
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">Tidak ada data kunjungan yang tersedia.
+                                                        </td>
+                                                    </tr>
+                                                    <% } else {%>
+                                                        <% data.kunjungan.map(kunjungan=> { %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= kunjungan.dataValues.email %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kunjungan.dataValues.name %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kunjungan.dataValues.nim %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= kunjungan.dataValues.programStudi %>
+                                                                </td>
+                                                                <td>
+                                                                    <% const date=new Date(kunjungan.dataValues.time); const
+                                                                    year=date.getFullYear(); const
+                                                                    month=String(date.getMonth() + 1).padStart(2, '0' );
+                                                                    const day=String(date.getDate()).padStart(2, '0' );
+                                                                    const hours=String(date.getHours()).padStart(2, '0'
+                                                                    ); const
+                                                                    minutes=String(date.getMinutes()).padStart(2, '0' );
+                                                                    const
+                                                                    seconds=String(date.getSeconds()).padStart(2, '0' );
+                                                                    const formattedDate=`${year}-${month}-${day}
+                                                                    ${hours}:${minutes}:${seconds}`; %>
+                                                                        <%= formattedDate %>
+                                                                </td>
+                                                            </tr>
+                                                            <% }) %>
+                                                                <% }%>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <%- include ("../../components/footer-js.ejs") %>
+
+                <script>
+                    function alpineInit() {
+                        return {
+                            async logout() {
+                                try {
+                                    const request = await fetch('/logout', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-type': 'application/json'
+                                        },
+                                    })
+                                    const response = await request.json()
+                                    Toastify({
+                                        text: response.message,
+                                        duration: 2000,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
+                                } catch (error) {
+                                    Toastify({
+                                        text: 'Terjadi kesalahan pada server, error: ' + error.message,
+                                        duration: 1600,
+                                        gravity: "bottom",
+                                        position: "right",
+                                        style: {
+                                            background: '#e74a3b',
+                                        },
+                                    }).showToast();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                </script>
+</body>
+
+
+</html>
