@@ -19,33 +19,31 @@
     <%- include ("../../components/ui/navbar.ejs") %>
 
         <main class="container my-5">
-            <h1 class="h3 mb-2 text-gray-800 mb-5 font-weight-bolder">Data Buku</h1>
-            <div class="input-group my-5">
+            <h1 class="h3 mb-4 text-center text-primary font-weight-bolder">Data Buku</h1>
+            <div class="input-group my-4">
                 <input type="text" x-model="data.judul" class="form-control" placeholder="Masukkan judul buku yang ingin dicari..." aria-label="Masukkan judul buku yang ingin dicari..." aria-describedby="button-addon2">
-                <button class="btn btn-primary" @click="cariBuku" id="button-addon2">Cari Buku</button>
+                <button class="btn btn-success" @click="cariBuku" id="button-addon2">Cari Buku</button>
             </div>
             <div class="container mt-4 mb-5">
                 <div class="row">
                     <template x-if="books.length === 0">
                         <div class="col-12">
-                            <div class="alert alert-warning" role="alert">
+                            <div class="alert alert-warning text-center" role="alert">
                                 Tidak ada buku yang tersedia.
                             </div>
                         </div>
                     </template>
                     <template x-for="book in books" :key="book.id">
                         <div class="col-md-4 mb-4">
-                            <div class="card" style="width: 100%;">
+                            <div class="card shadow-sm">
                                 <img class="card-img-top" :src="book.gambar" :alt="book.judul + ' image'">
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold" x-text="book.judul"></h5>
                                     <p class="card-text" x-text="book.penulis"></p>
-                                    <div class="d-flex gap-2">
-                                        <a :href="`/koleksi/data-baris-buku/${book.id}`"
-                                            class="btn btn-sm btn-outline-primary">Detail</a>
-                                        <a :href="`/pelayanan/pinjam-buku/${book.id}`" class="btn btn-sm btn-primary">Pinjam
-                                            Buku</a>
-                                        <a :href="book.link" class="btn btn-sm btn-warning">Link</a>
+                                    <div class="d-flex justify-content-between">
+                                        <a :href="`/koleksi/data-baris-buku/${book.id}`" class="btn btn-outline-primary">Detail</a>
+                                        <a :href="`/pelayanan/pinjam-buku/${book.id}`" class="btn btn-primary">Pinjam Buku</a>
+                                        <a :href="book.link" class="btn btn-warning">Link</a>
                                     </div>
                                 </div>
                             </div>

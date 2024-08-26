@@ -12,55 +12,46 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"> <!-- Added Bootstrap Icons -->
     <%- include ("../../components/header.ejs") %>
 </head>
 
 <body>
     <%- include ("../../components/ui/navbar.ejs") %>
 
-        <div class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light border-bottom shadow-sm">
-            <div class="col-md-12 p-lg-12 mx-auto ">
-                <h1 class="h1 mb-2 text-gray-800 mb-5 font-weight-bolder">Tata Tertib</h1>
-                <!-- <a class="btn btn-outline-secondary" href="#">Coming soon</a> -->
-            </div>
-            <div class="product-device shadow-sm d-none d-md-block"></div>
-            <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    <div class="container my-5">
+        <div class="text-center mb-4">
+            <h1 class="display-4 font-weight-bold">Tata Tertib</h1>
+            <p class="lead text-muted">Peraturan dan prosedur untuk menciptakan lingkungan perpustakaan yang kondusif.</p>
         </div>
-        <main class="container my-5">
-            <div class="container px-4 mb-5" id="featured-3">
-                <div class="row g-4 py-5 row-cols-1 row-cols-lg-1">
-                    <div class="feature col">
-                        <p>Tata tertib perpustakaan adalah serangkaian peraturan dan prosedur yang dibuat untuk mengatur perilaku dan aktivitas pengguna di dalam perpustakaan. Tata tertib ini bertujuan untuk menciptakan lingkungan yang kondusif, tertib,
-                            dan nyaman bagi semua pengguna perpustakaan. Dengan adanya tata tertib, diharapkan setiap pengguna dapat memanfaatkan fasilitas dan layanan perpustakaan dengan maksimal tanpa mengganggu pengguna lain.</p>
-                        <h2>...</h2>
-                        <ol>
-                            <li>Mengisi Buku Tamu yang yang di sediakan sebelum memasuki ruangan perpustakan.</li>
-                            <li>Masuk Ruangan Perpustakan berpakaian rapi, bajy dimasukan kedalam.</li>
-                            <li>Tidak Membawa Tas, buku, kantong lain, dan jaket kedalam ruangan perpustakaan.</li>
-                            <li>Membangun Kemitraan Strategis.</li>
-                            <li>Buku perpustakan tidak boleh dibawah keluar ruangan, keculai telah dipinjam.</li>
-                            <li>Menjaga kebersihan Lingkungan perpustakan</li>
-                        </ol>
-                        <h2>...</h2>
-                        <div>
-                            Dari
-                            <a href="http://library.unh.ac.id/">Libary</a> &middot;
-                            <a href="https://play.google.com/store/apps/details?id=id.kubuku.kbk1927535&hl=en&gl=US&pli=1">E-Library</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p>Tata tertib perpustakaan adalah serangkaian peraturan dan prosedur yang dibuat untuk mengatur perilaku dan aktivitas pengguna di dalam perpustakaan. Tata tertib ini bertujuan untuk menciptakan lingkungan yang kondusif, tertib,
+                    dan nyaman bagi semua pengguna perpustakaan.</p>
             </div>
+        </div>
+        <h2 class="h4">Peraturan:</h2>
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item">Mengisi Buku Tamu yang disediakan sebelum memasuki ruangan perpustakaan.</li>
+            <li class="list-group-item">Masuk Ruangan Perpustakaan berpakaian rapi, baju dimasukkan ke dalam.</li>
+            <li class="list-group-item">Tidak Membawa Tas, buku, kantong lain, dan jaket ke dalam ruangan perpustakaan.</li>
+            <li class="list-group-item">Membangun Kemitraan Strategis.</li>
+            <li class="list-group-item">Buku perpustakaan tidak boleh dibawa keluar ruangan, kecuali telah dipinjam.</li>
+            <li class="list-group-item">Menjaga kebersihan Lingkungan perpustakaan.</li>
+        </ol>
+        <div class="mt-4 text-center">
+            <p>Dari <a href="http://library.unh.ac.id/">Library</a> &middot; <a href="https://play.google.com/store/apps/details?id=id.kubuku.kbk1927535&hl=en&gl=US&pli=1">E-Library</a></p>
+        </div>
+    </div>
 
-            <!-- FOOTER -->
-            <footer class="container">
-                <p class="float-end"><a href="#">Back to top</a></p>
-                <p>&copy; 2024 Universitas Nurdin Hamzah. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-            </footer>
+    <!-- FOOTER -->
+    <footer class="container text-center">
+        <p class="float-end"><a href="#">Back to top</a></p>
+        <p>&copy; 2024 Universitas Nurdin Hamzah. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>
 
-        </main>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <%- include ("../../components/footer-js.ejs") %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <%- include ("../../components/footer-js.ejs") %>
 </body>
 
 </html>

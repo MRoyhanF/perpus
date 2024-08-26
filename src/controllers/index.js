@@ -486,6 +486,32 @@ const controller = {
                     data: { appName, kunjungan, user: user.name },
                 });
             },
+            delete: async function(req, res) {
+                try {
+                    const id = req.params.id;
+                    const kunjungan = await Kunjungan.findOne({ where: { id } });
+                    if (!kunjungan)
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Data kunjungan tidak ada",
+                        });
+                    const deleteKunjungan = await Kunjungan.destroy({ where: { id } });
+                    if (!deleteKunjungan)
+                        return res.status(500).json({
+                            status: 500,
+                            message: "Terjadi kesalahan pada server",
+                        });
+                    return res.status(200).json({
+                        status: 200,
+                        message: `Berhasil menghapus data kunjungan dengan id ${id}`,
+                    });
+                } catch (error) {
+                    return res.status(500).json({
+                        status: 500,
+                        message: "Terjadi kesalahan pada server",
+                    });
+                }
+            },
         },
         skripsi: {
             get: async function(req, res) {

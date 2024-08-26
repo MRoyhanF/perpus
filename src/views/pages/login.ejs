@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,27 +10,48 @@
     <title>
         <%= data.appName %>
     </title>
-    <link href="/public/images/UNH.png" rel="icon"> 
+    <link href="/public/images/UNH.png" rel="icon" style="width: 32px; height: 32px;"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
     <%- include ("../components/header.ejs") %>
+    <style>
+        .login-card {  
+            border-radius: 1rem;
+        }
+        .login-card .card-body {
+            padding: 2rem;
+        }
+        .login-card .form-control {
+            border-radius: 2rem;
+        }
+        .login-card .btn {
+            border-radius: 2rem;
+        }
+        .login-card .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .login-card .text-center img {
+            max-width: 140px;
+        }
+    </style>
 </head>
 
-<body class="bg-white" x-data="alpineInit()">
-
+<body class="bg-light" x-data="alpineInit()">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-10 col-sm-12">
-                <div class="card o-hidden border-0 shadow my-5">
+                <div class="card o-hidden border-0 shadow my-5 login-card">
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                        <img src="/public/images/UNH.png" class="img-fluid mb-4" alt="Login Image" style="max-width: 140px; height: auto;">
+                                        <h1 class="h4 text-gray-900 mb-4">Login Admin</h1>
                                     </div>
                                     <form class="user" @submit.prevent="submit">
                                         <div class="form-group">
-                                            <input type="email" x-model="data.email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                            <input type="email" x-model="data.email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukan Email...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" x-model="data.password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
@@ -40,6 +60,13 @@
                                             Login
                                         </button>
                                     </form>
+                                    <!-- <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="#">Forgot Password?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="#">Create an Account!</a>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -54,64 +81,64 @@
 
     <%- include ("../components/footer-js.ejs") %>
 
-        <script>
-            function alpineInit() {
-                return {
-                    data: {
-                        email: '',
-                        password: '',
-                    },
-                    async submit() {
-                        if (!this.data.email || !this.data.password) {
-                            Toastify({
-                                text: 'Email and password are required.',
-                                duration: 1600,
-                                gravity: "bottom",
-                                position: "right",
-                                style: {
-                                    background: '#e74a3b',
-                                },
-                            }).showToast();
-                            return;
-                        }
-                        try {
-                            const request = await fetch('/login', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    email: this.data.email,
-                                    password: this.data.password
-                                })
+    <script>
+        function alpineInit() {
+            return {
+                data: {
+                    email: '',
+                    password: '',
+                },
+                async submit() {
+                    if (!this.data.email || !this.data.password) {
+                        Toastify({
+                            text: 'Email and password are required.',
+                            duration: 1600,
+                            gravity: "bottom",
+                            position: "right",
+                            style: {
+                                background: '#e74a3b',
+                            },
+                        }).showToast();
+                        return;
+                    }
+                    try {
+                        const request = await fetch('/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email: this.data.email,
+                                password: this.data.password
                             })
-                            const response = await request.json()
-                            Toastify({
-                                text: response.message,
-                                duration: 2000,
-                                gravity: "bottom",
-                                position: "right",
-                                style: {
-                                    background: response.status === 200 ? '#1cc88a' : '#e74a3b',
-                                },
-                            }).showToast();
-                            if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
-                        } catch (error) {
-                            Toastify({
-                                text: 'Terjadi kesalahan pada server, error: ' + error.message,
-                                duration: 1600,
-                                gravity: "bottom",
-                                position: "right",
-                                style: {
-                                    background: '#e74a3b',
-                                },
-                            }).showToast();
-                            return;
-                        }
+                        })
+                        const response = await request.json()
+                        Toastify({
+                            text: response.message,
+                            duration: 2000,
+                            gravity: "bottom",
+                            position: "right",
+                            style: {
+                                background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                            },
+                        }).showToast();
+                        if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
+                    } catch (error) {
+                        Toastify({
+                            text: 'Terjadi kesalahan pada server, error: ' + error.message,
+                            duration: 1600,
+                            gravity: "bottom",
+                            position: "right",
+                            style: {
+                                background: '#e74a3b',
+                            },
+                        }).showToast();
+                        return;
                     }
                 }
             }
-        </script>
+        }
+    </script>
 </body>
 
 </html>

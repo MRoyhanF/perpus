@@ -53,6 +53,7 @@ router
 
 // BUKU TAMU
 .get("/admin/buku-tamu", authentication, controller.admin.bukuTamu.get)
+    .delete("/admin/buku-tamu/:id", authentication, controller.admin.buku.delete)
 
 // SKRIPSI
 .get("/admin/skripsi", authentication, controller.admin.skripsi.get)

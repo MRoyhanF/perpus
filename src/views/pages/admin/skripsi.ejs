@@ -133,67 +133,67 @@
                         return {
                             async hapus(kode) {
                                 try {
-                                    const request = await fetch(`/admin/skripsi/${kode}`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        }
-                                    })
-                                    const response = await request.json();
-                                    Toastify({
-                                        text: response.message,
-                                        duration: 2000,
-                                        gravity: "bottom",
-                                        position: "right",
-                                        style: {
-                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
-                                        },
-                                    }).showToast();
-                                    if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
-                                } catch (error) {
-                                    Toastify({
-                                        text: 'Terjadi kesalahan pada server',
-                                        duration: 1600,
-                                        gravity: "bottom",
-                                        position: "right",
-                                        style: {
-                                            background: '#e74a3b',
-                                        },
-                                    }).showToast();
-                                }
+                                        const request = await fetch(`/admin/skripsi/${kode}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        const response = await request.json();
+                                        Toastify({
+                                            text: response.message,
+                                            duration: 2000,
+                                            gravity: "bottom",
+                                            position: "right",
+                                            style: {
+                                                background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                                            },
+                                        }).showToast();
+                                        if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
+                                    } catch (error) {
+                                        Toastify({
+                                            text: 'Terjadi kesalahan pada server',
+                                            duration: 1600,
+                                            gravity: "bottom",
+                                            position: "right",
+                                            style: {
+                                                background: '#e74a3b',
+                                            },
+                                        }).showToast();
+                                    }
                             },
                             async logout() {
-                                try {
-                                    const request = await fetch('/logout', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-type': 'application/json'
-                                        },
-                                    })
-                                    const response = await request.json()
-                                    Toastify({
-                                        text: response.message,
-                                        duration: 2000,
-                                        gravity: "bottom",
-                                        position: "right",
-                                        style: {
-                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
-                                        },
-                                    }).showToast();
-                                    if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
-                                } catch (error) {
-                                    Toastify({
-                                        text: 'Terjadi kesalahan pada server, error: ' + error.message,
-                                        duration: 1600,
-                                        gravity: "bottom",
-                                        position: "right",
-                                        style: {
-                                            background: '#e74a3b',
-                                        },
-                                    }).showToast();
-                                    return;
+                                    try {
+                                        const request = await fetch('/logout', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-type': 'application/json'
+                                            },
+                                        })
+                                        const response = await request.json()
+                                        Toastify({
+                                            text: response.message,
+                                            duration: 2000,
+                                            gravity: "bottom",
+                                            position: "right",
+                                            style: {
+                                                background: response.status === 200 ? '#1cc88a' : '#e74a3b',
+                                            },
+                                        }).showToast();
+                                        if (response.status === 200) setTimeout(() => window.location.reload(), 1500)
+                                    } catch (error) {
+                                        Toastify({
+                                            text: 'Terjadi kesalahan pada server, error: ' + error.message,
+                                            duration: 1600,
+                                            gravity: "bottom",
+                                            position: "right",
+                                            style: {
+                                                background: '#e74a3b',
+                                            },
+                                        }).showToast();
+                                        return;
+                                    }
                                 }
-                            }
                         }
                     }
                 </script>
