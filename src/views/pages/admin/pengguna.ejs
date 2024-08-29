@@ -8,13 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>
-        ADMIN
+    <title>ADMIN
         <%= data.appName %>
     </title>
     <link href="/public/images/UNH.png" rel="icon">
     <script src="//unpkg.com/alpinejs" defer></script>
-    <script src="/js/common.js" defer></script>
     <%- include ("../../components/header.ejs") %>
 </head>
 
@@ -29,88 +27,78 @@
                         <div class="container-fluid">
 
                             <!-- Page Heading -->
-                            <h1 class="h3 mb-2 text-gray-800">Buku Tamu</h1>
-                            <p class="mb-4">Tabel buku tamu perpustakaan</p>
+                            <h1 class="h3 mb-2 text-gray-800">Data Admin</h1>
+                            <p class="mb-4">Tabel admin perpustakaan</p>
 
                             <!-- DataTales Example -->
                             <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-end">
+                                    <a href="/admin/pengguna/add" class="btn btn-primary">Tambah Data Admin</a>
+                                </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>Alamat Email</th>
-                                                    <th>Nama Lengkap</th>
-                                                    <th>Nomor Induk Mahasiswa</th>
-                                                    <th>Program Studi</th>
-                                                    <th>Waktu</th>
-                                                    <th>Aksi</th>
+                                                    <th>ID</th>
+                                                    <th>Email</th>
+                                                    <th>Nama</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
+                                                    <th>ID</th>
                                                     <th>Email</th>
                                                     <th>Nama</th>
-                                                    <th>Nomor Induk Mahasiswa</th>
-                                                    <th>Program Studi</th>
-                                                    <th>Waktu</th>
-                                                    <th>Aksi</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <% if (data.kunjungan.length === 0) { %>
+                                                <% if (data.pengguna.length === 0) { %>
                                                     <tr>
-                                                        <td colspan="6" class="text-center">Tidak ada data buku tamu.
+                                                        <td colspan="8" class="text-center">Tidak ada data admin yang tersedia.
                                                         </td>
                                                     </tr>
                                                     <% } else {%>
-                                                        <% data.kunjungan.map(knjgn=> { %>
-                                                            <tr>
-                                                                <td>
-                                                                    <%= knjgn.email %>
-                                                                </td>
-                                                                <td>
-                                                                    <%= knjgn.name %>
-                                                                </td>
-                                                                <td>
-                                                                    <%= knjgn.nim %>
-                                                                </td>
-                                                                <td>
-                                                                    <%= knjgn.programStudi %>
-                                                                </td>
-                                                                <td>
-                                                                    <% const date=new Date(knjgn.time); const year=date.getFullYear(); const month=String(date.getMonth() +
-                                                                        1).padStart(2, '0' ); const day=String(date.getDate()).padStart(2, '0' ); const
-                                                                        hours=String(date.getHours()).padStart(2, '0' ); const minutes=String(date.getMinutes()).padStart(2, '0' );
-                                                                        const seconds=String(date.getSeconds()).padStart(2, '0' ); const formattedDate=`${year}-${month}-${day}
-                                                                        ${hours}:${minutes}:${seconds}`; %>
-                                                                        <%= formattedDate %>
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBukuTamu<%= knjgn.id %>">
+                                                        <% data.pengguna.map(pngn=> { %>
+                                                            <% if (pngn.email==='admin@gmail.com' ) return; %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <%= pngn.id %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= pngn.email %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= pngn.name %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="/admin/pengguna/<%= pngn.id %>" class="btn btn-sm btn-warning">Edit</a>
+                                                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete<%= pngn.id %>">
                                                                         Hapus
                                                                     </button>
-                                                                </td>
-                                                                <div class="modal fade" id="deleteBukuTamu<%= knjgn.id %>" tabindex="-1" role="dialog" aria-labelledby="deleteBukuTamu<%= knjgn.id %>Label" aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-body">
-                                                                                <p>Apakah anda yakin untuk menghapus kunjungan dengan id
-                                                                                    <b>
-                                                                                        <%= knjgn.id %>
+                                                                    </td>
+                                                                    <div class="modal fade" id="delete<%= pngn.id %>" tabindex="-1" role="dialog" aria-labelledby="delete<%= pngn.id %>Label" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-body">
+                                                                                    <p>Apakah anda yakin untuk menghapus data admin dengan email
+                                                                                        <b>
+                                                                                        <%= pngn.email %>
                                                                                     </b>?
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                                                                                <button type="button" @click="hapus(<%= knjgn.id %>)" class="btn btn-sm btn-danger">Hapus</button>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                                                                    <button type="button" @click="hapus('<%= pngn.id %>')" class="btn btn-sm btn-danger">Hapus</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </tr>
-                                                            <% }) %>
-                                                                <% }%>
+                                                                </tr>
+                                                                <% }) %>
+                                                                    <% }%>
                                             </tbody>
                                         </table>
                                     </div>
@@ -130,7 +118,7 @@
                         return {
                             async hapus(id) {
                                 try {
-                                    const request = await fetch(`/admin/buku-tamu/${id}`, {
+                                    const request = await fetch(`/admin/pengguna/${id}`, {
                                         method: 'DELETE',
                                         headers: {
                                             'Content-Type': 'application/json'

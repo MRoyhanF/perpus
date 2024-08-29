@@ -489,6 +489,7 @@ const controller = {
             delete: async function(req, res) {
                 try {
                     const id = req.params.id;
+                    console.log({ id });
                     const kunjungan = await Kunjungan.findOne({ where: { id } });
                     if (!kunjungan)
                         return res.status(400).json({
@@ -496,6 +497,7 @@ const controller = {
                             message: "Data kunjungan tidak ada",
                         });
                     const deleteKunjungan = await Kunjungan.destroy({ where: { id } });
+                    console.log({ deleteKunjungan });
                     if (!deleteKunjungan)
                         return res.status(500).json({
                             status: 500,
@@ -961,11 +963,12 @@ const controller = {
             },
             post: async function(req, res) {
                 try {
-                    const { nim, book_id, tanggal_peminjaman, status } = req.body
-                    if (!nim || !book_id || !tanggal_peminjaman || !status) return res.status(406).json({
-                        status: 406,
-                        message: "Data yang dikirimkan tidak sesuai",
-                    });
+                    const { nim, book_id, tanggal_peminjaman, status } = req.body;
+                    if (!nim || !book_id || !tanggal_peminjaman || !status)
+                        return res.status(406).json({
+                            status: 406,
+                            message: "Data yang dikirimkan tidak sesuai",
+                        });
                     const id = parseInt(book_id);
                     if (isNaN(id))
                         return res.status(404).json({
@@ -1069,13 +1072,13 @@ const controller = {
                     const buku = await Buku.findOne({ where: { id: book_id } });
                     if (!buku)
                         return res.status(400).json({
-                            status: 400,
                             message: "Data buku tidak tersedia",
                         });
 
                     if (
                         (status === "pending" || status === "dipinjam") &&
-                        (peminjaman.dataValues.status === "selesai" || peminjaman.dataValues.status === "gagal")
+                        (peminjaman.dataValues.status === "selesai" ||
+                            peminjaman.dataValues.status === "gagal")
                     ) {
                         if (buku.dataValues.stock <= 0)
                             return res.status(400).json({
@@ -1086,7 +1089,8 @@ const controller = {
 
                     const updatePeminjaman = await Peminjaman.update({
                         status,
-                        tanggal_dikembalikan: status === "selesai" ? new Date(tanggal_pengembalian) : undefined,
+                        tanggal_dikembalikan: status === "selesai" ?
+                            new Date(tanggal_pengembalian) : undefined,
                     }, {
                         where: {
                             id: idPeminjaman,
@@ -1103,7 +1107,8 @@ const controller = {
                         });
 
                     if (
-                        (peminjaman.dataValues.status === "pending" || peminjaman.dataValues.status === "dipinjam") &&
+                        (peminjaman.dataValues.status === "pending" ||
+                            peminjaman.dataValues.status === "dipinjam") &&
                         (status === "selesai" || status === "gagal")
                     ) {
                         const updateStockBuku = await Buku.update({ stock: buku.dataValues.stock + 1 }, { where: { id: buku.id } });
@@ -1114,7 +1119,8 @@ const controller = {
                             });
                     } else if (
                         (status === "pending" || status === "dipinjam") &&
-                        (peminjaman.dataValues.status === "selesai" || peminjaman.dataValues.status === "gagal")
+                        (peminjaman.dataValues.status === "selesai" ||
+                            peminjaman.dataValues.status === "gagal")
                     ) {
                         if (buku.dataValues.stock - 1 < 0)
                             return res.status(400).json({
@@ -1142,23 +1148,29 @@ const controller = {
             },
             delete: async function(req, res) {
                 try {
-                    const id = req.params.id
-                    const idPeminjaman = parseInt(id)
+                    const id = req.params.id;
+                    const idPeminjaman = parseInt(id);
                     if (isNaN(idPeminjaman))
                         return res.status(400).json({
                             status: 400,
                             message: "ID Peminjaman harus angka",
                         });
-                    const peminjaman = await Peminjaman.findOne({ where: { id: idPeminjaman } })
-                    if (!peminjaman) return res.status(400).json({
-                        status: 400,
-                        message: "Data peminjaman tidak tersedia",
+                    const peminjaman = await Peminjaman.findOne({
+                        where: { id: idPeminjaman },
                     });
-                    const deletePeminjaman = await Peminjaman.destroy({ where: { id: idPeminjaman } })
-                    if (!deletePeminjaman) return res.status(500).json({
-                        status: 500,
-                        message: "Terjadi kesalahan pada server",
+                    if (!peminjaman)
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Data peminjaman tidak tersedia",
+                        });
+                    const deletePeminjaman = await Peminjaman.destroy({
+                        where: { id: idPeminjaman },
                     });
+                    if (!deletePeminjaman)
+                        return res.status(500).json({
+                            status: 500,
+                            message: "Terjadi kesalahan pada server",
+                        });
                     return res.status(200).json({
                         status: 200,
                         message: "Berhasil menghapus data peminjaman",
@@ -1169,7 +1181,145 @@ const controller = {
                         message: "Terjadi kesalahan pada server",
                     });
                 }
-            }
+            },
+        },
+        pengguna: {
+            get: async function(req, res) {
+                const pengguna = await User.findAll();
+                const user = await User.findOne({
+                    where: { id: req.user.id },
+                });
+                return res.status(200).render("pages/admin/pengguna", {
+                    data: { appName, pengguna, user: user.name },
+                });
+            },
+            tambah: {
+                get: async function(req, res) {
+                    const user = await User.findOne({
+                        where: { id: req.user.id },
+                    });
+                    return res.status(200).render("pages/admin/pengguna-add", {
+                        data: { appName, user: user.name },
+                    });
+                },
+                post: async function(req, res) {
+                    try {
+                        const user = await User.findOne({
+                            where: { email: req.body.email },
+                        });
+                        if (user)
+                            return res.status(400).json({
+                                status: 400,
+                                message: "Email sudah digunakan",
+                            });
+                        const hashPassword = await bcrypt.hash(req.body.password, 10);
+                        const createdUser = await User.create({
+                            email: req.body.email,
+                            password: hashPassword,
+                            name: req.body.name,
+                        });
+                        if (!createdUser)
+                            return res.status(500).json({
+                                status: 500,
+                                message: "Terjadi kesalahan pada server",
+                            });
+                        return res.status(201).json({
+                            status: 201,
+                            message: "Buat akun admin berhasil",
+                        });
+                    } catch (error) {
+                        return res.status(500).json({
+                            status: 500,
+                            message: "Terjadi kesalahan pada server",
+                        });
+                    }
+                },
+            },
+            edit: {
+                get: async function(req, res) {
+                    const id = req.params.id;
+                    const userId = parseInt(id);
+                    if (isNaN(userId))
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Id admin bukan angka",
+                        });
+                    const pengguna = await User.findOne({ where: { id: userId } });
+                    if (!pengguna) return res.redirect("/admin/pengguna");
+                    const user = await User.findOne({
+                        where: { id: req.user.id },
+                    });
+                    return res.status(200).render("pages/admin/pengguna-edit", {
+                        data: { appName, pengguna, user: user.name },
+                    });
+                },
+                put: async function(req, res) {
+                    console.log({ params: req.params.id })
+                    console.log({ body: req.body })
+                    const id = req.params.id;
+                    const userId = parseInt(id);
+                    if (isNaN(userId))
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Id admin bukan angka",
+                        });
+                    const pengguna = await User.findOne({ where: { id: userId } });
+                    if (!pengguna)
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Data admin tidak ada",
+                        });
+                    let hashPassword = null;
+                    if (!req.body.password) {
+                        hashPassword = await bcrypt.hash(req.body.password, 10);
+                    }
+                    const updatePengguna = await User.update({
+                        email: req.body.email || pengguna.email,
+                        password: hashPassword || pengguna.password,
+                        name: req.body.name || pengguna.name,
+                    }, { where: { id: userId } });
+                    if (!updatePengguna) return res.status(500).json({
+                        status: 500,
+                        message: "Terjadi kesalahan pada server",
+                    });
+                    return res.status(200).json({
+                        status: 200,
+                        message: "Berhasil update akun admin",
+                    });
+                },
+            },
+            delete: async function(req, res) {
+                try {
+                    const id = req.params.id;
+                    const userId = parseInt(id);
+                    if (isNaN(userId))
+                        return res.status(400).json({
+                            status: 400,
+                            message: "ID admin bukan angka",
+                        });
+                    const user = await User.findOne({ where: { id: userId } });
+                    if (!user)
+                        return res.status(400).json({
+                            status: 400,
+                            message: "Data admin tidak ada",
+                        });
+                    const deleteUser = await User.destroy({ where: { id: userId } });
+                    if (!deleteUser)
+                        return res.status(500).json({
+                            status: 500,
+                            message: "Terjadi kesalahan pada server",
+                        });
+                    return res.status(200).json({
+                        status: 200,
+                        message: `Berhasil delete data admin dengan id ${userId}`,
+                    });
+                } catch (error) {
+                    return res.status(500).json({
+                        status: 500,
+                        message: "Terjadi kesalahan pada server",
+                    });
+                }
+            },
         },
     },
     book: {

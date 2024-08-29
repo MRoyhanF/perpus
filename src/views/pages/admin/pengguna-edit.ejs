@@ -11,15 +11,15 @@
         ADMIN
         <%= data.appName %>
     </title>
-    <link href="/public/images/UNH.png" rel="icon"> 
+    <link href="/public/images/UNH.png" rel="icon">
     <script src="//unpkg.com/alpinejs" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <%- include ("../../components/header.ejs") %>
+    <%- include("../../components/header.ejs") %>
 </head>
 
-<body id="page-top" x-data="alpineInit()">
+<body id="page-top" x-data="alpineInit(<%= JSON.stringify(data.pengguna) %>)">
     <div id="wrapper">
-        <%- include ("../../components/ui/sidebar.ejs") %>
+        <%- include("../../components/ui/sidebar.ejs") %>
 
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content">
@@ -28,8 +28,8 @@
                         <div class="container-fluid">
 
                             <!-- Page Heading -->
-                            <h1 class="h3 mb-2 text-gray-800">Tambah Buku</h1>
-                            <p class="mb-4">Tambah data buku</p>
+                            <h1 class="h3 mb-2 text-gray-800">Ubah Data Akun Admin</h1>
+                            <p class="mb-4">Ubah data akun admin</p>
 
                             <!-- DataTales Example -->
                             <div class="card shadow mb-4 p-4">
@@ -38,62 +38,30 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label for="judul" class="form-label">Judul Buku</label>
-                                                <input type="text" x-model="data.judul" class="form-control" id="judul" placeholder="Masukkan judul buku">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="penulis" class="form-label">Penulis</label>
-                                                <input type="text" x-model="data.penulis" class="form-control" id="penulis" placeholder="Nama penulis buku">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" x-model="data.email" class="form-control" id="email" placeholder="Masukkan email pengguna">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label for="tahun" class="form-label">Tahun</label>
-                                                <input type="number" x-model="data.tahun" class="form-control" id="tahun" placeholder="Tahun buku">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="kategori" class="form-label">Kategori</label>
-                                                <input type="text" x-model="data.kategori" class="form-control" id="kategori" placeholder="Contoh: Sience, Technology, Novel, dll">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" x-model="data.password" class="form-control" id="password" placeholder="Masukkan password pengguna">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label for="link" class="form-label">Link</label>
-                                                <input type="text" x-model="data.link" class="form-control" id="link" placeholder="Contoh: http://www.google.com">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="stock" class="form-label">Stock</label>
-                                                <input type="number" x-model="data.stock" class="form-control" id="stock" placeholder="Contoh: 12">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="gambar" class="form-label">Gambar</label>
-                                                <input type="file" x-ref="image" class="form-control" id="gambar" placeholder="Masukkan gambar">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="deskripsi" class="form-label">Deskripsi</label>
-                                                <textarea type="text" x-model="data.deskripsi" class="form-control" id="deskripsi" placeholder="Masukkan deskripsi singkat buku"></textarea>
+                                                <label for="name" class="form-label">Nama</label>
+                                                <input type="text" x-model="data.name" class="form-control" id="name" placeholder="Masukkan nama pengguna">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary">Tambah</button>
+                                            <button type="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -110,31 +78,29 @@
             <%- include("../../components/footer-js.ejs") %>
 
                 <script>
-                    function alpineInit() {
+                    function alpineInit(pengguna) {
                         return {
                             data: {
-                                judul: '',
-                                penulis: '',
-                                tahun: '',
-                                kategori: '',
-                                link: '',
-                                stock: '',
-                                deskripsi: '',
+                                id: pengguna.id,
+                                email: pengguna.email,
+                                password: '',
+                                name: pengguna.name,
                             },
                             async submit() {
                                 try {
-                                    const formData = new FormData();
-                                    formData.append('judul', this.data.judul);
-                                    formData.append('penulis', this.data.penulis);
-                                    formData.append('tahun', this.data.tahun);
-                                    formData.append('kategori', this.data.kategori);
-                                    formData.append('link', this.data.link);
-                                    formData.append('stock', this.data.stock);
-                                    formData.append('deskripsi', this.data.deskripsi);
-                                    formData.append('image', this.$refs.image.files[0]);
-                                    const request = await fetch('/admin/buku/add', {
-                                        method: 'POST',
-                                        body: formData
+                                    const {
+                                        id,
+                                        ...values
+                                    } = this.data
+                                    console.log({
+                                        values
+                                    })
+                                    const request = await fetch(`/admin/pengguna/${id}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(values)
                                     });
                                     const response = await request.json();
                                     Toastify({
@@ -143,13 +109,13 @@
                                         gravity: "bottom",
                                         position: "right",
                                         style: {
-                                            background: response.status === 201 ? '#1cc88a' : '#e74a3b',
+                                            background: response.status === 200 ? '#1cc88a' : '#e74a3b',
                                         },
                                     }).showToast();
-                                    if (response.status === 201) setTimeout(() => window.location.href = '/admin/buku', 1500);
+                                    if (response.status === 200) setTimeout(() => window.location = '/admin/pengguna', 1500);
                                 } catch (error) {
                                     Toastify({
-                                        text: 'Terjadi kesalahan pada server',
+                                        text: 'Terjadi kesalahan pada server, error: ' + error.message,
                                         duration: 1600,
                                         gravity: "bottom",
                                         position: "right",

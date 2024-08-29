@@ -53,7 +53,7 @@ router
 
 // BUKU TAMU
 .get("/admin/buku-tamu", authentication, controller.admin.bukuTamu.get)
-    .delete("/admin/buku-tamu/:id", authentication, controller.admin.buku.delete)
+    .delete("/admin/buku-tamu/:id", authentication, controller.admin.bukuTamu.delete)
 
 // SKRIPSI
 .get("/admin/skripsi", authentication, controller.admin.skripsi.get)
@@ -132,6 +132,15 @@ router
         authentication,
         controller.admin.peminjaman.delete
     )
-    .all("*", controller.errors.notfound);
+
+// PENGGUNA
+.get("/admin/pengguna", authentication, controller.admin.pengguna.get)
+    .get("/admin/pengguna/add", authentication, controller.admin.pengguna.tambah.get)
+    .get("/admin/pengguna/:id", authentication, controller.admin.pengguna.edit.get)
+    .post("/admin/pengguna/add", authentication, controller.admin.pengguna.tambah.post)
+    .put("/admin/pengguna/:id", authentication, controller.admin.pengguna.edit.put)
+    .delete("/admin/pengguna/:id", authentication, controller.admin.pengguna.delete)
+
+.all("*", controller.errors.notfound);
 
 module.exports = router;
