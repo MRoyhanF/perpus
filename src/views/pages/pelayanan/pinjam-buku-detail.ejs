@@ -24,6 +24,20 @@
                 <div class="row mt-4">
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
+                            <label for="nim" class="form-label text-gray-800">Nama Siswa</label>
+                            <input type="text" x-model="data.nama" class="form-control" id="nim" placeholder="xxxxxxxx">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="idBuku" class="form-label text-gray-800">Prodi</label>
+                            <input type="text" x-model="data.prodi" class="form-control" id="nim" placeholder="xxxxxxxx">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
                             <label for="nim" class="form-label text-gray-800">Nomor Induk Mahasiswa</label>
                             <input type="text" x-model="data.nim" class="form-control" id="nim" placeholder="xxxxxxxx">
                         </div>
@@ -93,6 +107,8 @@
             function alpineInit(book) {
                 return {
                     data: {
+                        nama:'',
+                        prodi:'',
                         nim: '',
                         idBuku: book.id,
                         isSearch: true,
@@ -155,6 +171,12 @@
                     },
                     async submit() {
                         try {
+                            // console.log({
+                                //     nama:this.data.nama,
+                                //     prodi: this.data.prodi,
+                                //     nim: this.data.nim,
+                                //     idBuku: this.data.idBuku,
+                                // })
                             if (!this.data.isSearch) return Toastify({
                                 text: 'Cari buku terlebih dahulu',
                                 duration: 1600,
@@ -170,6 +192,8 @@
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
+                                    nama: this.data.nama,
+                                    prodi: this.data.prodi,
                                     nim: this.data.nim,
                                     idBuku: this.data.idBuku,
                                 })

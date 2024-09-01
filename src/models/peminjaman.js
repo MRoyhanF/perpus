@@ -9,6 +9,14 @@ const Peminjaman = datasource.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        nama:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        prodi:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         kode_peminjaman: {
             type: DataTypes.STRING,
             allowNull: false,
